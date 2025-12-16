@@ -14,7 +14,167 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      config: {
+        Row: {
+          admin_password: string
+          admin_username: string
+          created_at: string
+          id: string
+          required_channels: string[] | null
+          telegram_admin_id: string | null
+          telegram_bot_username: string | null
+          updated_at: string
+        }
+        Insert: {
+          admin_password?: string
+          admin_username?: string
+          created_at?: string
+          id?: string
+          required_channels?: string[] | null
+          telegram_admin_id?: string | null
+          telegram_bot_username?: string | null
+          updated_at?: string
+        }
+        Update: {
+          admin_password?: string
+          admin_username?: string
+          created_at?: string
+          id?: string
+          required_channels?: string[] | null
+          telegram_admin_id?: string | null
+          telegram_bot_username?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      giveaways: {
+        Row: {
+          chat_ids: string[] | null
+          created_at: string
+          description: string | null
+          end_time: string
+          id: string
+          require_subscription: boolean
+          require_voting: boolean
+          rewards: Json | null
+          start_time: string
+          status: string
+          title: string
+          updated_at: string
+          votes_per_user: number
+          winners_count: number
+        }
+        Insert: {
+          chat_ids?: string[] | null
+          created_at?: string
+          description?: string | null
+          end_time: string
+          id?: string
+          require_subscription?: boolean
+          require_voting?: boolean
+          rewards?: Json | null
+          start_time?: string
+          status?: string
+          title: string
+          updated_at?: string
+          votes_per_user?: number
+          winners_count?: number
+        }
+        Update: {
+          chat_ids?: string[] | null
+          created_at?: string
+          description?: string | null
+          end_time?: string
+          id?: string
+          require_subscription?: boolean
+          require_voting?: boolean
+          rewards?: Json | null
+          start_time?: string
+          status?: string
+          title?: string
+          updated_at?: string
+          votes_per_user?: number
+          winners_count?: number
+        }
+        Relationships: []
+      }
+      participants: {
+        Row: {
+          giveaway_id: string
+          id: string
+          is_subscribed: boolean
+          registered_at: string
+          telegram_name: string | null
+          telegram_user_id: string
+          telegram_username: string | null
+        }
+        Insert: {
+          giveaway_id: string
+          id?: string
+          is_subscribed?: boolean
+          registered_at?: string
+          telegram_name?: string | null
+          telegram_user_id: string
+          telegram_username?: string | null
+        }
+        Update: {
+          giveaway_id?: string
+          id?: string
+          is_subscribed?: boolean
+          registered_at?: string
+          telegram_name?: string | null
+          telegram_user_id?: string
+          telegram_username?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "participants_giveaway_id_fkey"
+            columns: ["giveaway_id"]
+            isOneToOne: false
+            referencedRelation: "giveaways"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      votes: {
+        Row: {
+          giveaway_id: string
+          id: string
+          participant_id: string
+          voted_at: string
+          voter_telegram_id: string
+        }
+        Insert: {
+          giveaway_id: string
+          id?: string
+          participant_id: string
+          voted_at?: string
+          voter_telegram_id: string
+        }
+        Update: {
+          giveaway_id?: string
+          id?: string
+          participant_id?: string
+          voted_at?: string
+          voter_telegram_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "votes_giveaway_id_fkey"
+            columns: ["giveaway_id"]
+            isOneToOne: false
+            referencedRelation: "giveaways"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "votes_participant_id_fkey"
+            columns: ["participant_id"]
+            isOneToOne: false
+            referencedRelation: "participants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
